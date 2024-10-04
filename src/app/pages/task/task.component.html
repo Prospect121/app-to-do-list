@@ -36,52 +36,53 @@
 
     <ion-card-content>
       @if (tasks.length) {
+        <ion-list lines="full">
+          <ion-list>
+            @for (task of tasks; track $index) {
+              <ion-item>
+                <ion-label>
+                  <b>{{ task.name }}</b>
+                  <p>{{ task.description }}</p>
+                  <ion-chip color="primary">{{
+                    (task.categoryId | findCategory: categories)?.name
+                  }}</ion-chip>
+                  <ion-checkbox
+                    justify="start"
+                    color="success"
+                    (ionChange)="onChangeStatus(task)"
+                    [checked]="task.complete"
+                    >Completado</ion-checkbox
+                  >
+                </ion-label>
 
-      <ion-list lines="full">
-        <ion-list>
-          @for (task of tasks; track $index) {
-          <ion-item>
-            <ion-label>
-              <b>{{ task.name }}</b>
-              <p>{{ task.description }}</p>
-              <ion-chip color="primary">{{
-                (task.categoryId | findCategory : categories)?.name
-              }}</ion-chip>
-              <ion-checkbox
-                justify="start"
-                color="success"
-                (ionChange)="onChangeStatus(task)"
-                [checked]="task.complete"
-                >Completado</ion-checkbox
-              >
-            </ion-label>
-
-            <ion-button
-              id="0"
-              slot="end"
-              fill="clear"
-              [disabled]="task.complete"
-              (click)="onEdit(task)"
-            >
-              <ion-icon name="create-outline"></ion-icon>
-            </ion-button>
-            <ion-button
-              id="1"
-              slot="end"
-              fill="clear"
-              [disabled]="task.complete"
-              (click)="onRemove(task.id)"
-            >
-              <ion-icon name="trash" color="danger"></ion-icon>
-            </ion-button>
-          </ion-item>
-          }
+                @if (!(hideActions$ | async)) {
+                  <ion-button
+                    id="0"
+                    slot="end"
+                    fill="clear"
+                    [disabled]="task.complete"
+                    (click)="onEdit(task)"
+                  >
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    id="1"
+                    slot="end"
+                    fill="clear"
+                    [disabled]="task.complete"
+                    (click)="onRemove(task.id)"
+                  >
+                    <ion-icon name="trash" color="danger"></ion-icon>
+                  </ion-button>
+                }
+              </ion-item>
+            }
+          </ion-list>
         </ion-list>
-      </ion-list>
       } @else {
-      <ion-item lines="none">
-        <ion-label>No hay tareas</ion-label>
-      </ion-item>
+        <ion-item lines="none">
+          <ion-label>No hay tareas</ion-label>
+        </ion-item>
       }
     </ion-card-content>
   </ion-card>

@@ -8,6 +8,8 @@ import { add, trash, createOutline, filterOutline } from 'ionicons/icons';
 import { FilterCategoryComponent } from './components/filter-category/filter-category.component';
 import { TaskService } from 'src/app/shared/services/task/task.service';
 import { ITask } from 'src/app/shared/interfaces/task';
+import { FireBaseRemoteConfigService } from 'src/app/core/services/fire-base-remote-config/fire-base-remote-config.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-category',
@@ -19,18 +21,22 @@ export class CategoryComponent implements OnInit {
   messageAlert: string = '';
   isAlertOpen: boolean = false;
 
+  hideActions$: Observable<boolean> = of(false);
+
   private _tasks: ITask[] = [];
 
   constructor(
     private readonly _categoryService: CategoryService,
     private readonly _taskService: TaskService,
-    private readonly _modalCtrl: ModalController
+    private readonly _modalCtrl: ModalController,
+    private readonly _fireBaseRemoteConfigService: FireBaseRemoteConfigService
   ) {
     addIcons({ add, filterOutline, createOutline, trash });
   }
 
   async ngOnInit(): Promise<void> {
     await this._getAll();
+    this.hideActions$ = this._fireBaseRemoteConfigService.hideActions;
   }
 
   async onEdit(category: ICategory): Promise<void> {

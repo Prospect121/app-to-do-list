@@ -8,6 +8,8 @@ import { FormTaskComponent } from './component/form-task/form-task.component';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { ICategory } from 'src/app/shared/interfaces/category';
 import { FilterTaskComponent } from './component/filter-task/filter-task.component';
+import { FireBaseRemoteConfigService } from 'src/app/core/services/fire-base-remote-config/fire-base-remote-config.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-task',
@@ -19,10 +21,13 @@ export class TaskComponent implements OnInit {
   categories: ICategory[] = [];
   isAlertOpen: boolean = false;
 
+  hideActions$: Observable<boolean> = of(false);
+
   constructor(
     private readonly _taskService: TaskService,
     private readonly _modalCtrl: ModalController,
-    private readonly _categoryService: CategoryService
+    private readonly _categoryService: CategoryService,
+    private readonly _fireBaseRemoteConfigService: FireBaseRemoteConfigService
   ) {
     addIcons({ add, filterOutline, createOutline, trash });
   }
@@ -30,7 +35,9 @@ export class TaskComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this._getAll();
     await this._getAllcategory();
-    this._categoryService.categories = this.categories.map((category) => ({
+    this.hideActions$ = this._fireBaseRemoteConfigService.hideActions;
+
+    this._categoryService.categories = this.categories.map(category => ({
       title: category.name,
       select: true,
       search: category.id,

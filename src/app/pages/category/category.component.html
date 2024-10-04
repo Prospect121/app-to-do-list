@@ -45,22 +45,28 @@
                   <p>{{ category.description }}</p>
                 </ion-label>
 
-                <ion-checkbox
-                  slot="end"
-                  color="success"
-                  (ionChange)="onChangeStatus(category)"
-                  [checked]="category.status"
-                ></ion-checkbox>
-                <ion-button slot="end" fill="clear" (click)="onEdit(category)">
-                  <ion-icon name="create-outline"></ion-icon>
-                </ion-button>
-                <ion-button
-                  slot="end"
-                  fill="clear"
-                  (click)="onRemove(category.id)"
-                >
-                  <ion-icon name="trash" color="danger"></ion-icon>
-                </ion-button>
+                @if (!(hideActions$ | async)) {
+                  <ion-checkbox
+                    slot="end"
+                    color="success"
+                    (ionChange)="onChangeStatus(category)"
+                    [checked]="category.status"
+                  ></ion-checkbox>
+                  <ion-button
+                    slot="end"
+                    fill="clear"
+                    (click)="onEdit(category)"
+                  >
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    slot="end"
+                    fill="clear"
+                    (click)="onRemove(category.id)"
+                  >
+                    <ion-icon name="trash" color="danger"></ion-icon>
+                  </ion-button>
+                }
               </ion-item>
             }
           </ion-list>
