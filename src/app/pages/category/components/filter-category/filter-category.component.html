@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Filtro</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onFilter()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-content>
+      <ion-item><ion-label>Filtrar por Estado</ion-label></ion-item>
+      <ion-grid>
+        <ion-row>
+          @for (tag of tagsStatus; track $index) {
+            <ion-col
+              ><ion-button
+                [fill]="tag.select ? 'solid' : 'outline'"
+                (click)="onSelect($index)"
+              >
+                {{ tag.title }}
+              </ion-button></ion-col
+            >
+          }
+        </ion-row>
+      </ion-grid>
+
+      <br />
+
+      <ion-segment>
+        <ion-button shape="round" fill="outline" (click)="onFilter()">
+          <ion-label>Filtrar</ion-label>
+        </ion-button>
+      </ion-segment>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
