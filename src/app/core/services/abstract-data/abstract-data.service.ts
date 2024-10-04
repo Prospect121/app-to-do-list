@@ -105,7 +105,7 @@ export abstract class AbstractDataService<T extends IDataEntity> {
   }
 
   async filterByFields(filters: {
-    [key in keyof T]?: (string | boolean)[];
+    [key in keyof T]?: (string | boolean | number)[];
   }): Promise<T[]> {
     try {
       const items = await this._getStoredItems();

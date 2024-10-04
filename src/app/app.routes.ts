@@ -8,12 +8,8 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'task',
         pathMatch: 'full',
-      },
-      {
-        path: 'home',
-        loadComponent: () => import('./home/home.page').then(m => m.HomePage),
       },
       {
         path: 'category',
@@ -21,6 +17,11 @@ export const routes: Routes = [
           import('./pages/category/category.module').then(
             m => m.CategoryModule
           ),
+      },
+      {
+        path: 'task',
+        loadChildren: () =>
+          import('./pages/task/task.module').then(m => m.TaskModule),
       },
     ],
   },
