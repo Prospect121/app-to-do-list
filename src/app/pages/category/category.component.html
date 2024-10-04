@@ -73,3 +73,12 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
+<ion-alert
+  [isOpen]="isAlertOpen"
+  header="No se puede eliminar la categoría"
+  subHeader="La categoría es usada por las siguientes tareas:"
+  [message]="messageAlert"
+  [buttons]="['Aceptar']"
+  (didDismiss)="isAlertOpen = false"
+></ion-alert>

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title> Agregar nueva categoría </ion-title>
+    <ion-title> Agregar nueva tarea </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onCloseForm()">Cerrar</ion-button>
     </ion-buttons>
@@ -10,7 +10,7 @@
 <ion-content class="ion-padding">
   <ion-card>
     <ion-card-content>
-      <ng-container [formGroup]="categoryForm">
+      <ng-container [formGroup]="taskForm">
         <ion-item>
           <ion-input
             label="Nombre"
@@ -29,6 +29,24 @@
             autocapitalize="sentences"
             formControlName="description"
           ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-select
+            label="Categoría"
+            label-placement="floating"
+            formControlName="categoryId"
+            placeholder="Seleccione la categoría"
+            [multiple]="false"
+            cancelText="Cancelar"
+            okText="Aceptar"
+          >
+            @for (category of categories; track $index) {
+              <ion-select-option [value]="category.id">{{
+                category.name
+              }}</ion-select-option>
+            }
+          </ion-select>
         </ion-item>
       </ng-container>
 

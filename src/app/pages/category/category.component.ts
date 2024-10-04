@@ -6,6 +6,8 @@ import { FormCategoryComponent } from './components/form-category/form-category.
 import { addIcons } from 'ionicons';
 import { add, trash, createOutline, filterOutline } from 'ionicons/icons';
 import { FilterCategoryComponent } from './components/filter-category/filter-category.component';
+import { TaskService } from 'src/app/shared/services/task/task.service';
+import { ITask } from 'src/app/shared/interfaces/task';
 
 @Component({
   selector: 'app-category',
@@ -14,8 +16,14 @@ import { FilterCategoryComponent } from './components/filter-category/filter-cat
 })
 export class CategoryComponent implements OnInit {
   categories: ICategory[] = [];
+  messageAlert: string = '';
+  isAlertOpen: boolean = false;
+
+  private _tasks: ITask[] = [];
+
   constructor(
     private readonly _categoryService: CategoryService,
+    private readonly _taskService: TaskService,
     private readonly _modalCtrl: ModalController
   ) {
     addIcons({ add, filterOutline, createOutline, trash });
@@ -35,6 +43,14 @@ export class CategoryComponent implements OnInit {
   }
 
   async onRemove(id: number): Promise<void> {
+    this._tasks = await this._taskService.filterByFields({ categoryId: [id] });
+
+    if (this._tasks?.length) {
+      this.messageAlert = this._tasks.map(task => task.name).join(', ');
+      this.isAlertOpen = true;
+      return;
+    }
+
     await this._remove(id);
   }
 
