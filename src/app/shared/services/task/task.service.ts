@@ -4,9 +4,7 @@ import { AbstractDataService } from 'src/app/core/services/abstract-data/abstrac
 import { Storage } from '@ionic/storage';
 import { ISelectOption } from 'src/app/core/interfaces/select-option';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class TaskService extends AbstractDataService<ITask> {
   completes: ISelectOption[] = [
     { title: 'Completado', select: true, search: true },
