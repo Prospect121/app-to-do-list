@@ -36,12 +36,6 @@ export class TaskComponent implements OnInit {
     await this._getAll();
     await this._getAllcategory();
     this.hideActions$ = this._fireBaseRemoteConfigService.hideActions;
-
-    this._categoryService.categories = this.categories.map(category => ({
-      title: category.name,
-      select: true,
-      search: category.id,
-    }));
   }
   async onEdit(task: ITask): Promise<void> {
     await this.onOpenFormModal(task);
@@ -57,6 +51,7 @@ export class TaskComponent implements OnInit {
   }
 
   async onOpenFormModal(task?: ITask): Promise<void> {
+    await this._getAllcategory();
     if (!this.categories?.length) {
       this.isAlertOpen = true;
       return;
@@ -131,5 +126,15 @@ export class TaskComponent implements OnInit {
 
   private async _getAllcategory(): Promise<void> {
     this.categories = await this._categoryService.getAll();
+
+    this._setOptionCategories();
+  }
+
+  private _setOptionCategories(): void {
+    this._categoryService.categories = this.categories.map(category => ({
+      title: category.name,
+      select: true,
+      search: category.id,
+    }));
   }
 }

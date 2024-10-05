@@ -5,6 +5,7 @@ import { FilterCategoryComponent } from './components/filter-category/filter-cat
 import { FormCategoryComponent } from './components/form-category/form-category.component';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { RouterModule, Routes } from '@angular/router';
+import { TaskService } from 'src/app/shared/services/task/task.service';
 
 const routes: Routes = [
   {
@@ -20,6 +21,6 @@ const routes: Routes = [
     FormCategoryComponent,
   ],
   imports: [SharedModule, RouterModule.forChild(routes)],
-  providers: [CategoryService],
+  providers: [CategoryService, TaskService],
 })
 export class CategoryModule {}
