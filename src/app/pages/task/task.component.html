@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Tareas </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-item>
+      <ion-searchbar
+        [debounce]="500"
+        (ionInput)="searchInput($event.target)"
+        placeholder="Buscar"
+      ></ion-searchbar>
+
+      <ion-button slot="end" fill="clear" (click)="onOpenFilterModal()">
+        <ion-icon name="filter-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button
+        slot="end"
+        shape="round"
+        fill="outline"
+        (click)="onOpenFormModal()"
+      >
+        <ion-icon name="add"></ion-icon>
+        <ion-label>Nuevo</ion-label>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lista de tareas</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      @if (tasks.length) {
+        <ion-list lines="full">
+          <ion-list>
+            @for (task of tasks; track $index) {
+              <ion-item>
+                <ion-label>
+                  <b>{{ task.name }}</b>
+                  <p>{{ task.description }}</p>
+                  <ion-chip color="primary">{{
+                    (task.categoryId | findCategory: categories)?.name
+                  }}</ion-chip>
+                  <ion-checkbox
+                    justify="start"
+                    color="success"
+                    (ionChange)="onChangeStatus(task)"
+                    [checked]="task.complete"
+                    >Completado</ion-checkbox
+                  >
+                </ion-label>
+
+                @if (!(hideActions$ | async)) {
+                  <ion-button
+                    id="0"
+                    slot="end"
+                    fill="clear"
+                    [disabled]="task.complete"
+                    (click)="onEdit(task)"
+                  >
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    id="1"
+                    slot="end"
+                    fill="clear"
+                    [disabled]="task.complete"
+                    (click)="onRemove(task.id)"
+                  >
+                    <ion-icon name="trash" color="danger"></ion-icon>
+                  </ion-button>
+                }
+              </ion-item>
+            }
+          </ion-list>
+        </ion-list>
+      } @else {
+        <ion-item lines="none">
+          <ion-label>No hay tareas</ion-label>
+        </ion-item>
+      }
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-alert
+  [isOpen]="isAlertOpen"
+  header="Advertencia"
+  message="Debe generar las categorias antes de crear tareas."
+  [buttons]="['Aceptar']"
+  (didDismiss)="isAlertOpen = false"
+></ion-alert>

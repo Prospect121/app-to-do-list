@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title> Agregar nueva categoría </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCloseForm()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-content>
+      <ng-container [formGroup]="categoryForm">
+        <ion-item>
+          <ion-input
+            label="Nombre"
+            labelPlacement="floating"
+            placeholder="Ingrese su nombre"
+            autocapitalize="sentences"
+            formControlName="name"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Descripción"
+            labelPlacement="floating"
+            placeholder="Ingrese una descripción"
+            autocapitalize="sentences"
+            formControlName="description"
+          ></ion-input>
+        </ion-item>
+      </ng-container>
+
+      <br />
+
+      <ion-segment>
+        <ion-button (click)="onSaveCategory()">
+          <ion-icon name="add"></ion-icon>
+          <ion-label>Agregar</ion-label>
+        </ion-button>
+      </ion-segment>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

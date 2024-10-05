@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Categorías </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-item>
+      <ion-searchbar
+        [debounce]="500"
+        (ionInput)="searchInput($event.target)"
+        placeholder="Buscar"
+      ></ion-searchbar>
+
+      <ion-button slot="end" fill="clear" (click)="onOpenFilterModal()">
+        <ion-icon name="filter-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button
+        slot="end"
+        shape="round"
+        fill="outline"
+        (click)="onOpenFormModal()"
+      >
+        <ion-icon name="add"></ion-icon>
+        <ion-label>Nuevo</ion-label>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lista de categorías</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      @if (categories.length) {
+        <ion-list lines="full">
+          <ion-list>
+            @for (category of categories; track $index) {
+              <ion-item>
+                <ion-label>
+                  <b>{{ category.name }}</b>
+                  <p>{{ category.description }}</p>
+                </ion-label>
+
+                @if (!(hideActions$ | async)) {
+                  <ion-checkbox
+                    slot="end"
+                    color="success"
+                    (ionChange)="onChangeStatus(category)"
+                    [checked]="category.status"
+                  ></ion-checkbox>
+                  <ion-button
+                    slot="end"
+                    fill="clear"
+                    (click)="onEdit(category)"
+                  >
+                    <ion-icon name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button
+                    slot="end"
+                    fill="clear"
+                    (click)="onRemove(category.id)"
+                  >
+                    <ion-icon name="trash" color="danger"></ion-icon>
+                  </ion-button>
+                }
+              </ion-item>
+            }
+          </ion-list>
+        </ion-list>
+      } @else {
+        <ion-item lines="none">
+          <ion-label>No hay categorías</ion-label>
+        </ion-item>
+      }
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-alert
+  [isOpen]="isAlertOpen"
+  header="No se puede eliminar la categoría"
+  subHeader="La categoría es usada por las siguientes tareas:"
+  [message]="messageAlert"
+  [buttons]="['Aceptar']"
+  (didDismiss)="isAlertOpen = false"
+></ion-alert>
